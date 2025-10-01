@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 
 using namespace std;
@@ -38,6 +39,7 @@ class Trie{
         if (nodoLetra == nullptr) {
             nodoLetra = new Nodo(letra);
             nodoActual->agregarHijo(nodoLetra);
+            cantNodos++;
         }
         
         if (!esUltimaLetra) {
@@ -49,6 +51,8 @@ class Trie{
     // la raiz es un nodo sin caracter
     Trie() : raiz(new Nodo()) { }
 
+    int cantNodos = 0;
+
     void agregarPalabra(string palabra) {
         agregarLetra(raiz, palabra, 0);
     }
@@ -56,4 +60,18 @@ class Trie{
 
 int main() {
     Trie trie;
+    
+    string nombreArchivo;
+    cin >> nombreArchivo;
+
+    ifstream diccionario(nombreArchivo);
+
+    string palabra;
+    while (getline(diccionario, palabra)) {
+        trie.agregarPalabra(palabra);
+    }
+
+    diccionario.close();
+
+    cout << trie.cantNodos << "\n";
 }
