@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <map>
 
 using namespace std;
@@ -12,9 +11,9 @@ class Nodo {
     int vecesPalabra = 0;
     int vecesPrefijo = 0;
 
-    Nodo * getHijo(char l) {
-        if (!hijos.count(l)) return nullptr;
-        return hijos[l];
+    Nodo * getHijo(char letra) {
+        if (!hijos.count(letra)) return nullptr;
+        return hijos[letra];
     }
 
     Nodo * agregarHijo(char letra) {
