@@ -1,28 +1,28 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <map>
 
 using namespace std;
 
 class Nodo {
     private:
-    map<char, Nodo *> hijos;
+    vector<Nodo *> hijos;
     
     public:
-    Nodo() : letra(' ') { }
+    Nodo() : letra(' ') { }                     // usado para la raiz
+    Nodo(char chr) : letra(chr) { }
     
     char letra;
 
-    Nodo * getHijo(char letra) {
-        if (!hijos.count(letra)) return nullptr;
-        return hijos[letra];
+    Nodo * getHijo(char l) {
+        for (Nodo * h : hijos) {
+            if (h->letra == l) return h;
+        }
+        return nullptr;
     }
 
-    Nodo * agregarHijo(char letra) {
-        Nodo * newHijo = new Nodo();
-        hijos.insert(pair<char, Nodo *>(letra, newHijo));
-        return newHijo;
+    void agregarHijo(Nodo * nuevoHijo) {
+        hijos.push_back(nuevoHijo);
     }
 };
 
@@ -37,7 +37,8 @@ class Trie{
         
         // if esa letra no existe entre los hijos del nodoActual hay que agregarla.
         if (nodoLetra == nullptr) {
-            nodoLetra = nodoActual->agregarHijo(letra);
+            nodoLetra = new Nodo(letra);
+            nodoActual->agregarHijo(nodoLetra);
             cantNodos++;
         }
         

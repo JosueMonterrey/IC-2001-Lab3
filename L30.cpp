@@ -1,25 +1,29 @@
 #include <iostream>
-#include <map>
+#include <vector>
 
 using namespace std;
 
 class Nodo {
     private:
-    map<char, Nodo *> hijos;
+    vector<Nodo *> hijos;
     
-    public:    
+    public:
+    Nodo() : letra(' ') { }                     // usado para la raiz
+    Nodo(char chr) : letra(chr) { }
+    
+    char letra;
     int vecesPalabra = 0;
     int vecesPrefijo = 0;
 
-    Nodo * getHijo(char letra) {
-        if (!hijos.count(letra)) return nullptr;
-        return hijos[letra];
+    Nodo * getHijo(char l) {
+        for (Nodo * h : hijos) {
+            if (h->letra == l) return h;
+        }
+        return nullptr;
     }
 
-    Nodo * agregarHijo(char letra) {
-        Nodo * newHijo = new Nodo();
-        hijos.insert(pair<char, Nodo *>(letra, newHijo));
-        return newHijo;
+    void agregarHijo(Nodo * nuevoHijo) {
+        hijos.push_back(nuevoHijo);
     }
 };
 
@@ -38,7 +42,8 @@ class Trie{
         
         // if esa letra no existe entre los hijos del nodoActual hay que agregarla.
         if (nodoLetra == nullptr) {
-            nodoLetra = nodoActual->agregarHijo(letra);
+            nodoLetra = new Nodo(letra);
+            nodoActual->agregarHijo(nodoLetra);
         }
         
         // el nodoActual va a ser prefijo de una nueva palabra cuando esa palabra se agregue.
