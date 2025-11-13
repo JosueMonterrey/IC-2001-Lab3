@@ -111,7 +111,8 @@ int main() {
         Nodo * R = trie.buscarPalabra(query);
 
         if (R == nullptr)
-            cout << "La palabra '" << query << "' no existe!\n";
+            // cout << "La palabra '" << query << "' no existe!\n";
+            cout << "0 0\n";
         else
             cout << R->vecesPalabra << " " << R->vecesPrefijo << "\n";
     }
