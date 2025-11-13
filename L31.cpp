@@ -32,7 +32,8 @@ class Trie{
 
     void agregarLetra(Nodo * nodoActual, string palabra, int indiceLetra) {
         char letra = palabra[indiceLetra];
-        bool esUltimaLetra = !palabra[indiceLetra + 1];             // los strings terminan con un character 'NUL'=00000000.
+        // bool esUltimaLetra = !palabra[indiceLetra + 1];             // los strings terminan con un character 'NUL'=00000000.
+        bool esUltimaLetra = palabra.size() == indiceLetra + 1;
         Nodo * nodoLetra = nodoActual->getHijo(letra);
         
         // if esa letra no existe entre los hijos del nodoActual hay que agregarla.
