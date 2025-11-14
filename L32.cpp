@@ -37,7 +37,8 @@ class Trie{
 
     void agregarLetra(Nodo * nodoActual, string palabra, int indiceLetra) {
         char letra = palabra[indiceLetra];
-        bool esUltimaLetra = !palabra[indiceLetra + 1];             // los strings terminan con un character 'NUL'=00000000.
+        // bool esUltimaLetra = !palabra[indiceLetra + 1];             // los strings terminan con un character 'NUL'=00000000.
+        bool esUltimaLetra = palabra.size() == indiceLetra + 1;
         Nodo * nodoLetra = nodoActual->getHijo(letra);
 
         // if esa letra no existe entre los hijos del nodoActual hay que agregarla.
@@ -119,6 +120,28 @@ class Trie{
     }
 };
 
+void toUpper(string& str) {
+    for (int i = 0; i < str.size(); i++) {
+        // si es un caracter invisible o simbolo no tocarlo
+        if (str[i] < 65)
+            continue;
+
+        // caso especial de la ñ
+        if (str[i] == 'Ñ')
+            continue;
+
+        if (str[i] == 'ñ') {
+            str[i] = 'Ñ';
+            continue;
+        }
+
+        // si la letra es minuscula
+        if (str[i] >= 'a') {
+            str[i] -= 32;    // convertir a mayuscula
+        }
+    }
+}
+
 int main() {
     Trie trie;
 
@@ -130,6 +153,10 @@ int main() {
 
     string palabra;
     while (getline(diccionario, palabra)) {
+        if (!palabra.empty() && palabra.back() == '\r') {
+            palabra.pop_back();  // elimina '\r'
+        }
+        toUpper(palabra);
         trie.agregarPalabra(palabra);
     }
 
@@ -142,6 +169,7 @@ int main() {
     while (Q--) {
         string letras;
         cin >> letras;
+        toUpper(letras);
         trie.buscarAnagramas(letras);
     }
 }
